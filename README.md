@@ -29,3 +29,30 @@ This is a simple Tic-Tac-Toe game implemented in Python with an AI opponent. The
 5. The game will display the board after each move and indicate the winner or if it's a draw.
 
 ## Example
+Choose your player (X/O): X Enter the difficulty level (search depth) between 1 and 10: 3 . . . . . . . . .
+
+Enter row and column (1-3): 1 1 X . . . . . . . .
+
+AI is making a move... X . . . O . . . .
+
+Enter row and column (1-3): 1 2 X X . . O . . . .
+
+AI is making a move... X X . . O O . . .
+
+Enter row and column (1-3): 1 3 X X X . O O . . .
+
+X wins
+
+
+## Requirements
+
+- Python 3.x
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+
