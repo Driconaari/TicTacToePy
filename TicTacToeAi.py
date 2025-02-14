@@ -25,13 +25,27 @@ def is_winner(board, player):
 def is_full(board):
     return all(cell != '.' for row in board for cell in row)
 
+# Field values for evaluation
+field_values = [
+    [3, 2, 3],
+    [2, 4, 2],
+    [3, 2, 3]
+]
+
 # Function to evaluate the board and return a score
 def evaluate(board, depth):
     if is_winner(board, 'X'):
         return 10 - depth  # Prefer quicker wins
     elif is_winner(board, 'O'):
         return depth - 10  # Prefer delaying losses
-    return 0
+    score = 0
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == 'X':
+                score += field_values[i][j]
+            elif board[i][j] == 'O':
+                score -= field_values[i][j]
+    return score
 
 # Min-Max algorithm with alpha-beta pruning to find the best move
 def min_max(board, depth, is_maximizing, alpha, beta, max_depth):
