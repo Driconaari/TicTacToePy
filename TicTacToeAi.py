@@ -33,7 +33,7 @@ def evaluate(board):
         return -10
     return 0
 
-# Minimax algorithm with alpha-beta pruning to find the best move
+# Min-Max algorithm with alpha-beta pruning to find the best move
 def min_max(board, depth, is_maximizing, alpha, beta, max_depth):
     score = evaluate(board)
     # If the game is over or max depth is reached, return the score
