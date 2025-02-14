@@ -6,7 +6,7 @@ This is a simple Tic-Tac-Toe game implemented in Python with an AI opponent. The
 
 - Play as either X or O
 - Adjustable difficulty level (search depth)
-- AI opponent using Minimax algorithm with alpha-beta pruning
+- AI opponent using Min-max algorithm with alpha-beta pruning
 - Clear indication of the winner or a draw
 
 ## How to Play
