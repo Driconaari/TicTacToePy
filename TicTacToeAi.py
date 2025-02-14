@@ -26,18 +26,18 @@ def is_full(board):
     return all(cell != '.' for row in board for cell in row)
 
 # Function to evaluate the board and return a score
-def evaluate(board):
+def evaluate(board, depth):
     if is_winner(board, 'X'):
-        return 10
+        return 10 - depth  # Prefer quicker wins
     elif is_winner(board, 'O'):
-        return -10
+        return depth - 10  # Prefer delaying losses
     return 0
 
 # Min-Max algorithm with alpha-beta pruning to find the best move
 def min_max(board, depth, is_maximizing, alpha, beta, max_depth):
-    score = evaluate(board)
+    score = evaluate(board, depth)
     # If the game is over or max depth is reached, return the score
-    if score == 10 or score == -10 or is_full(board) or depth == max_depth:
+    if score != 0 or is_full(board) or depth == max_depth:
         return score
     
     if is_maximizing:
@@ -85,6 +85,20 @@ def find_best_move(board, max_depth):
     
     return best_move
 
+# Function to get a valid move from the player
+def get_player_move(board):
+    while True:
+        try:
+            row, col = map(int, input("Enter row and column (1-3): ").split())
+            row -= 1  # Convert to 0-based index
+            col -= 1  # Convert to 0-based index
+            if 0 <= row < 3 and 0 <= col < 3 and board[row][col] == '.':
+                return row, col
+            else:
+                print("Invalid move. Try again.")
+        except ValueError:
+            print("Invalid input. Please enter numbers between 1 and 3.")
+
 # Main function to run the game
 def main():
     board = [['.' for _ in range(3)] for _ in range(3)]
@@ -97,22 +111,23 @@ def main():
     
     # Inform the player about the difficulty range
     print("Enter the difficulty level (search depth) between 1 and 10:")
-    max_depth = int(input("Enter the difficulty level (search depth): "))
-    while max_depth < 1 or max_depth > 10:
-        max_depth = int(input("Invalid choice. Enter the difficulty level (search depth) between 1 and 10: "))
+    while True:
+        try:
+            max_depth = int(input("Enter the difficulty level (search depth): "))
+            if 1 <= max_depth <= 10:
+                break
+            else:
+                print("Invalid choice. Enter a number between 1 and 10.")
+        except ValueError:
+            print("Invalid input. Please enter a number between 1 and 10.")
     
     while not is_full(board) and not is_winner(board, 'X') and not is_winner(board, 'O'):
         print_board(board)
-        row, col = map(int, input("Enter row and column (1-3): ").split())
-        row -= 1  # Convert to 0-based index
-        col -= 1  # Convert to 0-based index
-        if 0 <= row < 3 and 0 <= col < 3 and board[row][col] == '.':
-            board[row][col] = human
-            if not is_full(board) and not is_winner(board, human):
-                ai_move = find_best_move(board, max_depth)
-                board[ai_move[0]][ai_move[1]] = ai
-        else:
-            print("Invalid move. Try again.")
+        row, col = get_player_move(board)
+        board[row][col] = human
+        if not is_full(board) and not is_winner(board, human):
+            ai_move = find_best_move(board, max_depth)
+            board[ai_move[0]][ai_move[1]] = ai
     
     print_board(board)
     if is_winner(board, 'X'):
